@@ -16,7 +16,7 @@ typedef bit [DQ_BITS-1:0] data_t;
 
 typedef bit [ADDR_BITS-1:0] bus_addr_t;
 
-typdef struct packed {bank_t ba,bus_addr_t} cfg_mode_reg_t;
+typedef struct packed {bank_t ba,bus_addr_t} cfg_mode_reg_t;
 
 typedef struct packed {row_t row,bank_t bank,column_t column} proc_addr_t;
 
