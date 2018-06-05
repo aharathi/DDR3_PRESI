@@ -24,7 +24,7 @@ endfucntion
 
 constraint BL_c { BL == 2'b00; }
 constraint CL_c { CL == 1'b1; }
-constrint BT_c { BT == 1'b0; }
+constraint BT_c { BT == 1'b0; }
 constraint CAS_c { CAS == CWL_MIN; }
 constraint DLL_c { DLL == 1'b0; }
 constraint WR_c { WR == WR_MIN; }
