@@ -19,7 +19,7 @@ bit BA[2:0] = 3'b000;
 
 function new(m_name);
 super.new(m_name);
-endfucntion 
+endfunction
 
 
 constraint BL_c { BL == 2'b00; }
