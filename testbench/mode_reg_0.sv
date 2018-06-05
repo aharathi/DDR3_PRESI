@@ -17,8 +17,8 @@ bit BA[2:0] = 3'b000;
 
 
 
-function new(m_name);
-super.new(m_name);
+function new(string name = m_name);
+super.new(name);
 endfunction
 
 
@@ -37,7 +37,7 @@ endfucntion
 
 
 function string conv_to_str();
-conv_to_str = $sformatf("MODE_REG_0:BL:%b,CL:%b,BT:%b,CAS:%b,DLL:%b,WR:%b,PD:%b",BL,CL,BT,CAS,DLL,WR,PD);
+conv_to_str = $sformatf("%s:BL:%b,CL:%b,BT:%b,CAS:%b,DLL:%b,WR:%b,PD:%b",m_name,BL,CL,BT,CAS,DLL,WR,PD);
 endfunction
 
 
