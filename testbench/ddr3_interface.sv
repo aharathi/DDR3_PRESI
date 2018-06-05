@@ -9,11 +9,11 @@
 
 interface ddr3_interface();
 
-'ifdef den1024Mb
-   'include "1024Mb_ddr_parameters.vh"
-'else 
+`ifdef den1024Mb
+   `include "1024Mb_ddr_parameters.vh"
+`else 
    ERROR: specify component density using +define+den____Mb.
-'endif
+`endif
    
 bit    ck;
 bit   rst_n;
