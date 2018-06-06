@@ -3,11 +3,12 @@
 package ddr3_tb_pkg;
 
 `include "uvm_macros.svh";
+`include "1024Mb_ddr3_parameters.vh";
  import uvm_pkg::*;
 
  parameter BURST_LEN = 8; 
 
-typedef enum {DESELECT,NOP,ZQ_CAL_L,ZQ_CAL_S,ACTIVATE,READ,WRITE,PRECHARGE,REFRESH,SELF_REFRESH,DLL_DIS,MSR} command_t;
+typedef enum {DESELECT,NOP,ZQ_CAL_L,ZQ_CAL_S,ACTIVATE,READ,WRITE,PRECHARGE,REFRESH,SELF_REFRESH,DLL_DIS,MSR,RESET} command_t;
 
 typedef bit [ROW_BITS-1:0] row_t;
 typedef bit [BA_BITS-1:0] bank_t;

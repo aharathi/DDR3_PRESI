@@ -10,6 +10,11 @@ class ddr3_seq_item extends uvm_sequence_item;
 	rand data_t data_proc [BURST_LEN];
 	cfg_mode_reg_t mode_cfg;
 	rand proc_addr_t addr_proc;
+	
+	row_t row_addr;
+	bank_t bank_sel;
+	column_t col_addr;
+
 
 	string m_name = "DDR3_SEQ_ITEM";
 
