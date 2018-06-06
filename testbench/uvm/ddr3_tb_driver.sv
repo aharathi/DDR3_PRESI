@@ -40,6 +40,11 @@ class ddr3_tb_driver extends uvm_driver;
 	
 		    endcase 
 
+
+// We will implement this sequence..
+//////////////////////////////////////////////////////////////////////////
+//
+			// power up();										// reset
 			// zq_calibration  (1);                            // perform Long ZQ Calibration
 
 			// load_mode       (3, 14'b00000000000000);        // Extended Mode Register (3)
@@ -57,6 +62,25 @@ class ddr3_tb_driver extends uvm_driver;
 			// odt_out         <= 1;                           // turn on odt
 			// nop (10);
 
+		// r_bank = $urandom_range (8);
+        // r_row  = $urandom_range (1<<ROW_BITS);
+        // r_col  = $urandom_range (1<<COL_BITS);
+        // r_data = {$urandom,$urandom,$urandom,$urandom,$urandom,$urandom,$urandom,$urandom};
+
+        // activate        (r_bank, r_row);
+        // nop (trcd);
+
+        // write           (r_bank, r_col, 0, 0, 0, r_data);
+        // nop (wl + bl/2 + twtr);
+
+        // read            (r_bank, r_col, 0, 0);
+        // nop (rl + bl/2);
+
+        // precharge       (r_bank, 0);
+        // nop (trp);
+
+//
+////////////////////////////////////////////////////
 
 		    seq_item_port.item_done();
 
