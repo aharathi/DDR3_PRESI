@@ -1,6 +1,5 @@
 //ddr3 seq item 
 
-
 class ddr3_seq_item extends uvm_sequence_item;
 
 	`uvm_object_utils(ddr3_seq_item)

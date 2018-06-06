@@ -8,11 +8,11 @@
 
 
 // top for ddr3 verification environment 
-
-`include "ddr3_packet.sv"
+`include "ddr3_tb_pkg.sv"
+`include "ddr3_seq_item"
 `include "ddr3_generator.sv"
-`include "ddr3_interface_tb.sv"
-`include "ddr3_driver.sv"
+`include "ddr3_interface.sv"
+`include "ddr3_tb_driver.sv"
 `include "ddr3_monitor.sv"
 `include "ddr3_scoreboard.sv"
 `include "ddr3_env.sv"
@@ -63,7 +63,7 @@ ddr dut(
 
 
 initial begin
-run_test();
+    run_test();
 end
 
 initial begin

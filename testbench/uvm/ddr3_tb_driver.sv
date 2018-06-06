@@ -28,7 +28,14 @@ class ddr3_tb_driver extends uvm_driver;
 
 		    seq_item_port.get_next_item(ddr3_tran);
 		    phase.raise_objection(this,$sformatf("%s:Got a transaction from the sequencer",m_name));
-		    case (ddr3_tran.CMD)
+			case (ddr3_tran.CMD)
+				RESET: begin
+					m_intf.power_up();
+				end
+				
+				ZQ_CAL: begin
+					m_intf.zq_calibration();
+				end
 		    endcase 
 
 		    seq_item_port.item_done();

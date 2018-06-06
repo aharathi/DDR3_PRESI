@@ -10,8 +10,7 @@ class ddr3_rst_seq extends uvm_sequence #(ddr3_seq_item);
 	endfunction 
 
 	task body;
-
-	`uvm_info(m_name,"Starting RESET sequence")
+		`uvm_info(m_name,"Starting RESET sequence")
 		ddr3_seq_item ddr3_tran = ddr3_seq_item::type_id::create("ddr3_tran");
 
 		start_item(ddr3_tran);
