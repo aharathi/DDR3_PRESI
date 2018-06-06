@@ -29,14 +29,34 @@ class ddr3_tb_driver extends uvm_driver;
 		    seq_item_port.get_next_item(ddr3_tran);
 		    phase.raise_objection(this,$sformatf("%s:Got a transaction from the sequencer",m_name));
 			case (ddr3_tran.CMD)
-				RESET: begin
+				
+				RESET: begin		// Reset and Poer up performs the same function; -Kirtan
 					m_intf.power_up();
 				end
 				
-				ZQ_CAL: begin
-					m_intf.zq_calibration();
-				end
+				// ZQ_CAL_L: begin		// This is Z_cal_long given in subtest.vh
+				// 	m_intf.zq_calibration(1);
+				// end
+	
 		    endcase 
+
+			// zq_calibration  (1);                            // perform Long ZQ Calibration
+
+			// load_mode       (3, 14'b00000000000000);        // Extended Mode Register (3)
+			// nop             (tmrd-1);
+			
+			// load_mode       (2, {14'b00001000_000_000} | mr_cwl<<3); // Extended Mode Register 2 with DCC Disable
+			// nop             (tmrd-1);
+			
+			// load_mode       (1, 14'b0000010110);            // Extended Mode Register with DLL Enable, AL=CL-1
+			// nop             (tmrd-1);
+			
+			// load_mode       (0, {14'b0_0_000_1_0_000_1_0_00} | mr_wr<<9 | mr_cl<<2); // Mode Register with DLL Reset
+	
+			// nop             (max(TDLLK,TZQINIT));
+			// odt_out         <= 1;                           // turn on odt
+			// nop (10);
+
 
 		    seq_item_port.item_done();
 

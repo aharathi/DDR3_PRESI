@@ -23,6 +23,7 @@ bit   ras_n;
 bit   cas_n;
 bit   we_n;
 bit   odt;
+bit   odt_out;
 bit   [BA_BITS-1:0] ba;
 bit   [ADDR_BITS-1:0] addr;
 tri   [DM_BITS-1:0] dm_tdqs; 
