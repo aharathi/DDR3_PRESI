@@ -32,7 +32,7 @@ class ddr3_mode_reg0_seq extends uvm_sequence #(ddr3_seq_item);
 		start_item(ddr3_tran);
 		assert(reg_0.randomize())
 		`uvm_info(m_name,reg_0.conv_to_str(),UVM_HIGH)
-		ddr3_tran = MSR;
+		ddr3_tran.CMD = MSR;
 		ddr3_tran.mode_cfg = reg_0.pack();
 		finish_item(ddr3_tran);
 
