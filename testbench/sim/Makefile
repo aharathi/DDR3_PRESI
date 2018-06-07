@@ -9,7 +9,7 @@ lib :
 	vmap work work 
 
 build :
-	vlog -mfcu -f rtl.f -f tb.f +cover=bcesfx
+	vlog +define+sg093 +define+x8 -mfcu -f rtl.f -f tb.f +cover=bcesfx
 
 run :
 	vsim -c -novopt -cover ddr3_hvl_top +UVM_TESTNAME=$(TEST) $(EXTRA) -do "run -all;coverage save -onexit ddr3_cov.ucdb;exit"
