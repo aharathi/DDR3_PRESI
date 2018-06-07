@@ -3,7 +3,7 @@
 
 
 class ddr3_tb_driver extends uvm_driver;
-	`uvm_conponent_utils(ddr3_tb_driver)
+	`uvm_component_utils(ddr3_tb_driver)
 
 	string m_name = "DDR3_TB_DRIVER";
 

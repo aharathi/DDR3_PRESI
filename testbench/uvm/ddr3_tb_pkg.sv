@@ -18,16 +18,16 @@ typedef bit [DQ_BITS-1:0]   data_t;
 
 typedef bit [ADDR_BITS-1:0] bus_addr_t;
 
-typedef struct packed {bank_t ba,bus_addr_t bus_addr} cfg_mode_reg_t;
+typedef struct packed {bank_t ba;bus_addr_t bus_addr;} cfg_mode_reg_t;
 
-typedef struct packed {row_t row,bank_t bank,column_t column} proc_addr_t;
+typedef struct packed {row_t row;bank_t bank;column_t column;} proc_addr_t;
 
 
 include "ddr3_seq_item.sv";
 include "mode_reg_0.sv";
 include "mode_reg_1.sv";
-include "sequences/ddr3_rst_seq.sv";
-include "sequences/ddr3_reg_seq.sv";
+include "../sequences/ddr3_rst_seq.sv";
+include "../sequences/ddr3_reg_seq.sv";
 include "ddr3_sequencer.sv";
 include "ddr3_tb_driver.sv";
 include "ddr3_env.sv";
