@@ -1,6 +1,8 @@
 
 
-
+TEST?=ddr3_reset_test
+#EXTRA?=+UVM_VERBOSITY=UVM_DEBUG +UVM_CONFIG_DB_TRACE +UVM_PHASE_TRACE 
+EXTRA?=+UVM_VERBOSITY=UVM_HIGH 
 
 all : clean lib build run extract 
 
@@ -9,10 +11,11 @@ lib :
 	vmap work work 
 
 build :
-	vlog +define+sg093 +define+x8 -mfcu -f rtl.f -f tb.f +cover=bcesfx
+	#vlog +define+sg093 +define+x8 -timescale=1 ps/1ps -mfcu -f rtl.f -f tb.f +cover=bcesfx
+	vlog +define+sg093 +define+x8 -timescale=1ns/1ns -f rtl.f -f tb.f +cover=bcesfx
 
 run :
-	vsim -c -novopt -cover ddr3_hvl_top +UVM_TESTNAME=$(TEST) $(EXTRA) -do "run -all;coverage save -onexit ddr3_cov.ucdb;exit"
+	vsim -c -novopt -cover ddr3_hvl_top ddr3_top +UVM_TESTNAME=$(TEST) $(EXTRA)  -do "run -all;coverage save -onexit ddr3_cov.ucdb;exit"
 
 extract :
 	vcover report -details -html ddr3_cov.ucdb

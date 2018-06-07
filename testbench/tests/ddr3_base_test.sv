@@ -16,7 +16,7 @@ function new(string name = m_name,uvm_component parent=null);
 endfunction
 
 function void build_phase(uvm_phase phase);
-	super.build(phase);
+	super.build_phase(phase);
 	m_env = ddr3_env::type_id::create("m_env",this);
 endfunction
 

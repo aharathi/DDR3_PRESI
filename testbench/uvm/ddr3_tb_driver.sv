@@ -2,7 +2,7 @@
 
 
 
-class ddr3_tb_driver extends uvm_driver;
+class ddr3_tb_driver extends uvm_driver#(ddr3_seq_item);
 	`uvm_component_utils(ddr3_tb_driver)
 
 	string m_name = "DDR3_TB_DRIVER";
@@ -13,8 +13,8 @@ class ddr3_tb_driver extends uvm_driver;
 	    super.new(name,parent);
     endfunction //new()
 
-    function void build (uvm_phase phase);
-	    super.build(phase);
+    function void build_phase(uvm_phase phase);
+	    super.build_phase(phase);
  
 	    assert(uvm_config_db #(virtual ddr3_interface)::get(null,"uvm_test_top","DDR3_interface",m_intf)) `uvm_info(m_name,"Got the interface in driver",UVM_HIGH)
 
@@ -28,6 +28,7 @@ class ddr3_tb_driver extends uvm_driver;
 
 		    seq_item_port.get_next_item(ddr3_tran);
 		    phase.raise_objection(this,$sformatf("%s:Got a transaction from the sequencer",m_name));
+			`uvm_info(m_name,ddr3_tran.conv_to_str(),UVM_HIGH)
 			case (ddr3_tran.CMD)
 				
 				RESET: begin		// Reset and Poer up performs the same function; -Kirtan

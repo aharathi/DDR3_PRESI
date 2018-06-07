@@ -9,6 +9,7 @@ import ddr3_tb_pkg::*;
 
 
 initial begin
+        $timeformat (-9, 3, " ns", 1);
 
 
 	uvm_config_db #(virtual ddr3_interface)::set(null,"uvm_test_top","DDR3_interface",ddr3_top.i);

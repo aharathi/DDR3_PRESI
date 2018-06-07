@@ -25,7 +25,7 @@ class ddr3_seq_item extends uvm_sequence_item;
 	constraint addr_c { addr_proc inside {[1:100]}; }
 
 	function string conv_to_str();
-		conv_to_str = $sformatf("%s:COMMAND:%s,DATA:%p,MODE_CFG:%b,ADDR:%0h",m_name,CMD,data_proc,mode_cfg,addr_proc);
+		conv_to_str = $sformatf("%s::COMMAND:%s,DATA:%p,MODE_CFG:%b,ADDR:%0h",m_name,CMD,data_proc,mode_cfg,addr_proc);
 	endfunction 
 	
 		

@@ -16,7 +16,9 @@ class ddr3_rst_seq extends uvm_sequence #(ddr3_seq_item);
 		ddr3_tran = ddr3_seq_item::type_id::create("ddr3_tran");
 
 		start_item(ddr3_tran);
+		assert(ddr3_tran.randomize())
 		ddr3_tran.CMD = RESET;
+		`uvm_info(m_name,ddr3_tran.conv_to_str(),UVM_HIGH);
 		finish_item(ddr3_tran);
 	
 	endtask 
