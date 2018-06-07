@@ -1,0 +1,24 @@
+
+
+
+//base test 
+
+
+class ddr3_base_test extends uvm_test;
+`uvm_component_utils(ddr3_base_test)
+
+string m_name = "DDR3_BASE_TEST";
+	
+ddr3_env m_env;
+
+function new(string name = m_name,uvm_component parent=null);
+	super.new(name,parent);
+endfunction
+
+function void build_phase(uvm_phase phase);
+	super.build(phase);
+	m_env = ddr3_env::type_id::create("m_env",this);
+endfunction
+
+
+endclass
