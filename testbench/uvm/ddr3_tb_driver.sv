@@ -8,6 +8,7 @@ class ddr3_tb_driver extends uvm_driver#(ddr3_seq_item);
 	string m_name = "DDR3_TB_DRIVER";
 
 	virtual ddr3_interface m_intf;
+	ddr3_tb_reg_model reg_model_h;
 
     function new(string name = m_name, uvm_component parent = null);
 	    super.new(name,parent);
@@ -17,6 +18,7 @@ class ddr3_tb_driver extends uvm_driver#(ddr3_seq_item);
 	    super.build_phase(phase);
  
 	    assert(uvm_config_db #(virtual ddr3_interface)::get(null,"uvm_test_top","DDR3_interface",m_intf)) `uvm_info(m_name,"Got the interface in driver",UVM_HIGH)
+	    assert(uvm_config_db #(ddr3_tb_reg_model)::get(this,"","reg_model",reg_model_h)) `uvm_info(m_name,"Got the handle for REG MODEL",UVM_HIGH)
 
     endfunction
 
@@ -44,7 +46,9 @@ class ddr3_tb_driver extends uvm_driver#(ddr3_seq_item);
 				end
 
 				MSR: begin
+					reg_model_h.load_model(ddr3_tran.mode_cfg);
 					m_intf.load_mode(ddr3_tran.mode_cfg.ba, ddr3_tran.mode_cfg.bus_addr);
+					reg_model_h.conv_to_str();
 				end
 
 				NOP: begin

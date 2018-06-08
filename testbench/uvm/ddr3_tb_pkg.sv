@@ -37,6 +37,7 @@ include "ddr3_seq_item.sv";
 include "mode_reg_0.sv";
 include "mode_reg_1.sv";
 include "mode_reg_2.sv";
+include "ddr3_tb_reg_model.sv";
 include "ddr3_sequencer.sv";
 include "ddr3_tb_driver.sv";
 include "ddr3_env.sv";
