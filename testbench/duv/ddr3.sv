@@ -422,9 +422,9 @@ module ddr3 (
 
         if (!$value$plusargs("model_data+%s", tmp_model_dir))
         begin
-            tmp_model_dir = "/tmp";
+            tmp_model_dir = "../bank_files";
             $display(
-                "%m: at time %t WARNING: no +model_data option specified, using /tmp.",
+                "%m: at time %t WARNING: no +model_data option specified, using ../bank_files.",
                 $time
             );
         end

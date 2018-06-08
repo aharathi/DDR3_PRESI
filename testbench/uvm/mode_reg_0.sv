@@ -18,7 +18,7 @@ bit [2:0]BA = 3'b000;
 
 
 function new(string name = m_name);
-super.new(name);
+    super.new(name);
 endfunction
 
 
@@ -32,12 +32,12 @@ constraint PD_c { PD == 1'b0; }
 
 
 function cfg_mode_reg_t pack;
-return {BA,RSV,PD,WR,DLL,RSV,CAS,BT,CL,BL};
+    return {BA,RSV,PD,WR,DLL,RSV,CAS,BT,CL,BL};
 endfunction 
 
 
 function string conv_to_str();
-conv_to_str = $sformatf("%s:BL:%b,CL:%b,BT:%b,CAS:%b,DLL:%b,WR:%b,PD:%b",m_name,BL,CL,BT,CAS,DLL,WR,PD);
+    conv_to_str = $sformatf("%s:BL:%b,CL:%b,BT:%b,CAS:%b,DLL:%b,WR:%b,PD:%b",m_name,BL,CL,BT,CAS,DLL,WR,PD);
 endfunction
 
 
