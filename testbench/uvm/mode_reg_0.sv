@@ -35,6 +35,10 @@ function cfg_mode_reg_t pack;
     return {BA,RSV,PD,WR,DLL,RSV,CAS[3:1],BT,CAS[0],BL};
 endfunction 
 
+function void unpack(cfg_mode_reg_t reg_cfg);
+	{BA,RSV,PD,WR,DLL,RSV,CAS[3:1],BT,CAS[0],BL} = reg_cfg;
+endfunction 
+
 
 function string conv_to_str();
     conv_to_str = $sformatf("%s:BL:%b,BT:%b,CAS:%b,DLL:%b,WR:%b,PD:%b",m_name,BL,BT,CAS,DLL,WR,PD);
