@@ -72,6 +72,7 @@ endtask
 // load mode
 task load_mode(input [BA_BITS-1:0] bank, input [ADDR_BITS-1:0] bus_addr);
     begin
+        `uvm_info(m_name,"STARTING LOAD OPERATION",UVM_HIGH)
 //        case (bank)
 //            0:mode_reg0 = addr;
 //            1:mode_reg1 = addr;
@@ -86,7 +87,8 @@ task load_mode(input [BA_BITS-1:0] bank, input [ADDR_BITS-1:0] bus_addr);
         ba    <= bank;
         addr     <= bus_addr;
         @(negedge ck);
-    
+        nop(10);
+        `uvm_info(m_name,"ENDING LOAD OPERATION",UVM_HIGH)
     end
 endtask
 

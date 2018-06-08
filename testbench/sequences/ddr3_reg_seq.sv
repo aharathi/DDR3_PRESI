@@ -43,8 +43,6 @@ class ddr3_mode_reg0_seq extends uvm_sequence #(ddr3_seq_item);
 		ddr3_tran.mode_cfg = reg_0.pack();
 		finish_item(ddr3_tran);
 
-
-
 	endtask 
 
 endclass

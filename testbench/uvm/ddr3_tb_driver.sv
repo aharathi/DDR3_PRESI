@@ -39,9 +39,13 @@ class ddr3_tb_driver extends uvm_driver#(ddr3_seq_item);
 					m_intf.precharge(ddr3_tran.bank_sel,ddr3_tran.row_addr);	
 					end 
 				
-				// ZQ_CAL_L: begin		// This is Z_cal_long given in subtest.vh
-				// 	m_intf.zq_calibration(1);
-				// end
+				ZQ_CAL_L: begin		// This is Z_cal_long given in subtest.vh
+					m_intf.zq_calibration(1);
+				end
+
+				MSR: begin
+					m_intf.load_mode(ddr3_tran.bank_sel, ddr3_tran.row_addr);
+				end
 	
 		    endcase 
 
