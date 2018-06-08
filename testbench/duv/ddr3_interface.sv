@@ -8,6 +8,8 @@
 
 
    `include "1024Mb_ddr3_parameters.vh"
+   `include "uvm_macros.svh"
+   import uvm_pkg::*;
 interface ddr3_interface();
 
    
@@ -30,6 +32,8 @@ tri   [DQS_BITS-1:0] tdqs_n;
 real tck;
 wire ck_n = ~ck;
 
+string m_name = "DDR3_INTERFACE";
+
 
 initial
 begin
@@ -48,6 +52,7 @@ end
 // power up	
 task power_up;
 begin
+	`uvm_info(m_name,"STARTING DDR3 RESET",UVM_HIGH)
     rst_n   <= 1'b0;
     cke     <= 1'b0;
     cs_n    <= 1'b1;
@@ -56,6 +61,7 @@ begin
     #200000000;
     @(negedge ck); 
     rst_n = 1'b1;
+	`uvm_info(m_name,"ENDING DDR3 RESET",UVM_HIGH)
     //#10000;
     #500000000;
     @(negedge ck); 
@@ -98,15 +104,17 @@ endtask
 
 //precharge
 
-task precharge (input [BA_BITS-1:0] bank,input ap);
+task precharge (input [BA_BITS-1:0] bank,input [ROW_BITS-1:0] ap);
     begin
+	`uvm_info(m_name,"STARTING DDR3 PRECHARGE",UVM_HIGH)
+	if (ap[10] == 1) `uvm_info(m_name,"All Bank Precharge",UVM_HIGH) else `uvm_info(m_name,$sformatf("Precharging Bank %0d",bank),UVM_HIGH)
         cke   <= 1'b1;
         cs_n  <= 1'b0;
         ras_n <= 1'b0; 
         cas_n <= 1'b1;
         we_n  <= 1'b0;
         ba    <= bank;
-        addr    <= (ap<<10);
+        addr    <= ap;
         @(negedge ck);
     end
 endtask
@@ -145,6 +153,7 @@ endtask
 
 task nop(input [31:0] count);
 begin
+	`uvm_info(m_name,"STARTING DDR3 NO OPERATION",UVM_HIGH)
     cke   <= 1'b1;
     cs_n  <= 1'b0;
     ras_n <= 1'b1; 
@@ -152,6 +161,7 @@ begin
     we_n  <= 1'b1;
     repeat(count)
     @(negedge ck);
+	`uvm_info(m_name,"ENDING DDR3 NO OPERATION",UVM_HIGH)
 end
 endtask
 

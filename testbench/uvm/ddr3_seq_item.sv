@@ -14,6 +14,10 @@ class ddr3_seq_item extends uvm_sequence_item;
 	bank_t bank_sel;
 	column_t col_addr;
 
+	u_int_t num_nop;
+
+	
+
 
 	string m_name = "DDR3_SEQ_ITEM";
 

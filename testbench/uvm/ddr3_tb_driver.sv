@@ -34,6 +34,10 @@ class ddr3_tb_driver extends uvm_driver#(ddr3_seq_item);
 				RESET: begin		// Reset and Poer up performs the same function; -Kirtan
 					m_intf.power_up();
 				end
+
+				PRECHARGE: begin
+					m_intf.precharge(ddr3_tran.bank_sel,ddr3_tran.row_addr);	
+					end 
 				
 				// ZQ_CAL_L: begin		// This is Z_cal_long given in subtest.vh
 				// 	m_intf.zq_calibration(1);
