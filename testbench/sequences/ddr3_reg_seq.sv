@@ -43,6 +43,13 @@ class ddr3_mode_reg0_seq extends uvm_sequence #(ddr3_seq_item);
 		ddr3_tran.mode_cfg = reg_0.pack();
 		finish_item(ddr3_tran);
 
+
+		ddr3_tran = ddr3_seq_item::type_id::create("ddr3_tran");
+		start_item(ddr3_tran);
+		ddr3_tran.CMD = NOP;
+		ddr3_tran.num_nop = ceil(TMRD); 
+		finish_item(ddr3_tran);
+
 	endtask 
 
 endclass
