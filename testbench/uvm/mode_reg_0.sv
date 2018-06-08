@@ -7,9 +7,9 @@ string m_name="MODE_REG_0";
 
 bit RSV='b0;
 rand bit [1:0]BL;
-rand bit CL;
+// rand bit CL;
 rand bit BT;
-rand bit [2:0]CAS;
+rand bit [3:0]CAS;
 rand bit DLL;
 rand bit [2:0]WR;
 rand bit PD;
@@ -23,7 +23,7 @@ endfunction
 
 
 constraint BL_c { BL == 2'b00; }
-constraint CL_c { CL == 1'b1; }
+// constraint CL_c { CL == 1'b1; }
 constraint BT_c { BT == 1'b0; }
 constraint CAS_c { CAS == CWL_MIN; }
 constraint DLL_c { DLL == 1'b0; }
@@ -32,12 +32,12 @@ constraint PD_c { PD == 1'b0; }
 
 
 function cfg_mode_reg_t pack;
-    return {BA,RSV,PD,WR,DLL,RSV,CAS,BT,CL,BL};
+    return {BA,RSV,PD,WR,DLL,RSV,CAS[3:1],BT,CAS[0],BL};
 endfunction 
 
 
 function string conv_to_str();
-    conv_to_str = $sformatf("%s:BL:%b,CL:%b,BT:%b,CAS:%b,DLL:%b,WR:%b,PD:%b",m_name,BL,CL,BT,CAS,DLL,WR,PD);
+    conv_to_str = $sformatf("%s:BL:%b,BT:%b,CAS:%b,DLL:%b,WR:%b,PD:%b",m_name,BL,BT,CAS,DLL,WR,PD);
 endfunction
 
 
