@@ -22,6 +22,16 @@ typedef struct packed {bank_t ba;bus_addr_t bus_addr;} cfg_mode_reg_t;
 
 typedef struct packed {row_t row;bank_t bank;column_t column;} proc_addr_t;
 
+typedef int unsigned u_int_t;
+
+function u_int_t ceil(input real number);
+	if (number > $rtoi(number))
+		ceil = unsigned'($rtoi(number)) + 1;
+	else
+		ceil = unsigned'($rtoi(number));
+
+endfunction
+
 
 include "ddr3_seq_item.sv";
 include "mode_reg_0.sv";
@@ -32,7 +42,9 @@ include "ddr3_tb_driver.sv";
 include "ddr3_env.sv";
 include "../sequences/ddr3_rst_seq.sv";
 include "../sequences/ddr3_reg_seq.sv";
+include "../sequences/ddr3_set_reg0_seq.sv";
 include "../tests/ddr3_base_test.sv";
 include "../tests/ddr3_reset_test.sv";
+include "../tests/ddr3_mode_reg0_test.sv";
 
 endpackage  

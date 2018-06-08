@@ -163,7 +163,7 @@ module ddr3 (
     input   odt;
 
     // clock jitter
-    real    tck_avg;
+    real    tck_avg = ((TCK_MAX + TCK_MIN)/2);
     time    tck_sample [PERTCKAVG-1:0];
     time    tch_sample [PERTCKAVG:0];
     time    tcl_sample [PERTCKAVG:0];
@@ -422,9 +422,9 @@ module ddr3 (
 
         if (!$value$plusargs("model_data+%s", tmp_model_dir))
         begin
-            tmp_model_dir = "/tmp";
+            tmp_model_dir = "../bank_files";
             $display(
-                "%m: at time %t WARNING: no +model_data option specified, using /tmp.",
+                "%m: at time %t WARNING: no +model_data option specified, using ../bank_files.",
                 $time
             );
         end

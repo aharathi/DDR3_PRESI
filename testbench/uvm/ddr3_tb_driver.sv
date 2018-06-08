@@ -34,11 +34,28 @@ class ddr3_tb_driver extends uvm_driver#(ddr3_seq_item);
 				RESET: begin		// Reset and Poer up performs the same function; -Kirtan
 					m_intf.power_up();
 				end
+
+				PRECHARGE: begin
+					m_intf.precharge(ddr3_tran.bank_sel,ddr3_tran.row_addr);	
+					end 
 				
-				// ZQ_CAL_L: begin		// This is Z_cal_long given in subtest.vh
-				// 	m_intf.zq_calibration(1);
-				// end
-	
+				ZQ_CAL_L: begin		// This is Z_cal_long given in subtest.vh
+					m_intf.zq_calibration(1);
+				end
+
+				MSR: begin
+					m_intf.load_mode(ddr3_tran.mode_cfg.ba, ddr3_tran.mode_cfg.bus_addr);
+				end
+
+				NOP: begin
+					m_intf.nop(10);
+					$display("inside nop case in driver");
+				end
+
+				WRITE: begin
+					m_intf.write(ddr3_tran.bank_sel, ddr3_tran.col_addr,0,0,0,ddr3_tran.row_addr);
+				end
+
 		    endcase 
 
 
