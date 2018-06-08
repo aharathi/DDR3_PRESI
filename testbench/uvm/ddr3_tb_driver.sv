@@ -46,7 +46,11 @@ class ddr3_tb_driver extends uvm_driver#(ddr3_seq_item);
 				MSR: begin
 					m_intf.load_mode(ddr3_tran.bank_sel, ddr3_tran.row_addr);
 				end
-	
+
+				NOP: begin
+					m_intf.nop(10);
+					$display("inside nop case in driver");
+				end
 		    endcase 
 
 
