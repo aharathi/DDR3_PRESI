@@ -167,52 +167,52 @@ begin
 end
 endtask
 
-// task write;
-//     input   [BA_BITS-1:0] bank;
-//     input  [COL_BITS-1:0] col;
-//     input                 ap; //Auto Precharge
-//     input                 bc; //Burst Chop  
-//     input [8*DM_BITS-1:0] dm;
-//     input [8*DQ_BITS-1:0] dq;
-//     reg   [ADDR_BITS-1:0] atemp [2:0];
-//     integer i;
-//     begin
-//         cke   <= 1'b1;
-//         cs_n  <= 1'b0;
-//         ras_n <= 1'b1;
-//         cas_n <= 1'b0;
-//         we_n  <= 1'b0;
-//         ba    <= bank;
+task write;
+    input   [BA_BITS-1:0] bank;
+    input  [COL_BITS-1:0] col;
+    input                 ap; //Auto Precharge
+    input                 bc; //Burst Chop  
+    input [8*DM_BITS-1:0] dm;
+    input [8*DQ_BITS-1:0] dq;
+    reg   [ADDR_BITS-1:0] atemp [2:0];
+    integer i;
+    begin
+        cke   <= 1'b1;
+        cs_n  <= 1'b0;
+        ras_n <= 1'b1;
+        cas_n <= 1'b0;
+        we_n  <= 1'b0;
+        ba    <= bank;
 
-//         atemp[0] = col & 10'h3ff;         //a[ 9: 0] = COL[ 9: 0]
-//         atemp[1] = ((col>>10) & 1'h1)<<11;//a[   11] = COL[   10]
-//         atemp[2] = (col>>11)<<13;         //a[ N:13] = COL[ N:11]
-//         addr     <= atemp[0] | atemp[1] | atemp[2] | (ap<<10) | (bc<<12);
+        atemp[0] = col & 10'h3ff;         //a[ 9: 0] = COL[ 9: 0]
+        atemp[1] = ((col>>10) & 1'h1)<<11;//a[   11] = COL[   10]
+        atemp[2] = (col>>11)<<13;         //a[ N:13] = COL[ N:11]
+        addr     <= atemp[0] | atemp[1] | atemp[2] | (ap<<10) | (bc<<12);
 
-//         casex ({bc, mode_reg0[1:0]})
-//             3'bx00, 3'b101:bl=8;
-//             3'bx1x, 3'b001:bl=4;
-//         endcase
+        // casex ({bc, mode_reg0[1:0]})
+        //     3'bx00, 3'b101:bl=8;
+        //     3'bx1x, 3'b001:bl=4;
+        // endcase
 
-//         dqs_en <= #(wl*tck-tck/2) 1'b1;
-//         dqs_out <= #(wl*tck-tck/2) {DQS_BITS{1'b1}};
-//         for (i=0; i<=bl; i=i+1) begin
-//             dqs_en <= #(wl*tck + i*tck/2) 1'b1;
-//             if (i%2 == 0) begin
-//                 dqs_out <= #(wl*tck + i*tck/2) {DQS_BITS{1'b0}};
-//             end else begin
-//                 dqs_out <= #(wl*tck + i*tck/2) {DQS_BITS{1'b1}};
-//             end
+        // dqs_en <= #(wl*tck-tck/2) 1'b1;
+        // dqs_out <= #(wl*tck-tck/2) {DQS_BITS{1'b1}};
+        // for (i=0; i<=bl; i=i+1) begin
+        //     dqs_en <= #(wl*tck + i*tck/2) 1'b1;
+        //     if (i%2 == 0) begin
+        //         dqs_out <= #(wl*tck + i*tck/2) {DQS_BITS{1'b0}};
+        //     end else begin
+        //         dqs_out <= #(wl*tck + i*tck/2) {DQS_BITS{1'b1}};
+        //     end
 
-//             dq_en  <= #(wl*tck + i*tck/2 + tck/4) 1'b1;
-//             dm_out <= #(wl*tck + i*tck/2 + tck/4) dm>>i*DM_BITS;
-//             dq_out <= #(wl*tck + i*tck/2 + tck/4) dq>>i*DQ_BITS;
-//         end
-//         dqs_en <= #(wl*tck + bl*tck/2 + tck/2) 1'b0;
-//         dq_en  <= #(wl*tck + bl*tck/2 + tck/4) 1'b0;
-//         @(negedge ck);  
-//     end
-// endtask
+        //     dq_en  <= #(wl*tck + i*tck/2 + tck/4) 1'b1;
+        //     dm_out <= #(wl*tck + i*tck/2 + tck/4) dm>>i*DM_BITS;
+        //     dq_out <= #(wl*tck + i*tck/2 + tck/4) dq>>i*DQ_BITS;
+        // end
+        // dqs_en <= #(wl*tck + bl*tck/2 + tck/2) 1'b0;
+        // dq_en  <= #(wl*tck + bl*tck/2 + tck/4) 1'b0;
+        @(negedge ck);  
+    end
+endtask
 
 
 // WRITE : begin

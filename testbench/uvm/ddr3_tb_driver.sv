@@ -52,9 +52,9 @@ class ddr3_tb_driver extends uvm_driver#(ddr3_seq_item);
 					$display("inside nop case in driver");
 				end
 
-				// WRITE: begin
-				// 	m_intf.write(ddr3_tran.bank_sel, ddr3_tran.col_addr,0,0,0,ddr3_tran.row_addr);
-				// end
+				WRITE: begin
+					m_intf.write(ddr3_tran.bank_sel, ddr3_tran.col_addr,0,0,0,ddr3_tran.row_addr);
+				end
 
 		    endcase 
 
