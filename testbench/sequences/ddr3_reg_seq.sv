@@ -1,4 +1,10 @@
-// reg seq //
+//////////////////////////////////////////////////////////////////////////////////////////////////
+//	ddr3_reg_seq.sv -  A sequence for doing Precharge and Configuring mode registers operation 
+//
+//	Author:		Ashwin Harathi, Kirtan Mehta, Mohammad Suheb Zameer
+//
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 class ddr3_mode_reg0_seq extends uvm_sequence #(ddr3_seq_item);
 	`uvm_object_utils(ddr3_mode_reg0_seq)
@@ -13,7 +19,7 @@ class ddr3_mode_reg0_seq extends uvm_sequence #(ddr3_seq_item);
 
 	function new(string name = m_name);
 		super.new(name);
-	endfunction
+	endfunction								// new funtion
 
 
 	task body;
