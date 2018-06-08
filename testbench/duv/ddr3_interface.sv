@@ -33,7 +33,7 @@ wire ck_n = ~ck;
 
 initial
 begin
-	$timeformat (-9,1," ns",1);
+	$timeformat (-9,3," ns",1);
     tck = TCK_MIN;
     ck  = 1'b1;
 end
@@ -52,10 +52,12 @@ begin
     cke     <= 1'b0;
     cs_n    <= 1'b1;
     odt_out <= 1'b0;
-    #10000;
+    //#10000;
+    #200000000;
     @(negedge ck); 
     rst_n = 1'b1;
-    #10000;
+    //#10000;
+    #500000000;
     @(negedge ck); 
     nop(TXPR/tck +1);
 end

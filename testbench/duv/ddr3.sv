@@ -163,7 +163,7 @@ module ddr3 (
     input   odt;
 
     // clock jitter
-    real    tck_avg;
+    real    tck_avg = ((TCK_MAX + TCK_MIN)/2);
     time    tck_sample [PERTCKAVG-1:0];
     time    tch_sample [PERTCKAVG:0];
     time    tcl_sample [PERTCKAVG:0];

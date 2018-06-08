@@ -12,7 +12,7 @@ lib :
 
 build :
 	#vlog +define+sg093 +define+x8 -timescale=1 ps/1ps -mfcu -f rtl.f -f tb.f +cover=bcesfx
-	vlog +define+sg093 +define+x8 -timescale=1ns/1ns -f rtl.f -f tb.f +cover=bcesfx
+	vlog +define+sg093 +define+x8 -timescale=1ps/1ps -f rtl.f -f tb.f +cover=bcesfx
 
 run :
 	vsim -c -novopt -cover ddr3_hvl_top ddr3_top +UVM_TESTNAME=$(TEST) $(EXTRA)  -do "run -all;coverage save -onexit ddr3_cov.ucdb;exit"
