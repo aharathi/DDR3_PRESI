@@ -13,12 +13,8 @@ class ddr3_tb_driver extends uvm_driver#(ddr3_seq_item);
 
 	string m_name = "DDR3_TB_DRIVER";
 
-<<<<<<< HEAD
-	virtual ddr3_interface m_intf;
-	ddr3_tb_reg_model reg_model_h;
-=======
 	virtual ddr3_interface m_intf; 	//interface
->>>>>>> 760e0bac467f571e8ba0eb3a302a4955b1aa1901
+	ddr3_tb_reg_model reg_model_h;
 
     function new(string name = m_name, uvm_component parent = null);
 	    super.new(name,parent);
@@ -57,7 +53,6 @@ class ddr3_tb_driver extends uvm_driver#(ddr3_seq_item);
 					m_intf.zq_calibration(1);
 				end
 
-<<<<<<< HEAD
 				MSR: begin
 					reg_model_h.load_model(ddr3_tran.mode_cfg);
 					m_intf.load_mode(ddr3_tran.mode_cfg.ba, ddr3_tran.mode_cfg.bus_addr);
