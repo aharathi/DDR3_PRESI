@@ -1,13 +1,24 @@
+////////////////////////////////////////////////////////////////////////////
+//	ddr3_tb_pkg.sv - package file where we include the macros and paramters. 
+//					It also has address, mode structures.
+//
+//	Author:		Ashwin Harathi, Kirtan Mehta, Mohammad Suheb Zameer
+//
+///////////////////////////////////////////////////////////////////////////////
+
+
 /// testbench components ///
 
 package ddr3_tb_pkg;
 
+// include parameters and uvm macros
 `include "uvm_macros.svh";
 `include "1024Mb_ddr3_parameters.vh";
 import uvm_pkg::*;
 
 parameter BURST_LEN = 8; 
 
+// Various commands that are done in Memory Controller
 typedef enum {DESELECT,NOP,ZQ_CAL_L,ZQ_CAL_S,ACTIVATE,READ,WRITE,PRECHARGE,REFRESH,SELF_REFRESH,DLL_DIS,MSR,RESET} command_t;
 
 typedef bit [ROW_BITS-1:0]  row_t;
@@ -20,7 +31,7 @@ typedef bit [ADDR_BITS-1:0] bus_addr_t;
 
 typedef struct packed {bank_t ba;bus_addr_t bus_addr;} cfg_mode_reg_t;
 
-typedef struct packed {row_t row;bank_t bank;column_t column;} proc_addr_t;
+typedef struct packed {row_t row;bank_t bank;column_t column;} proc_addr_t;  // address packed as row bank and column
 
 typedef int unsigned u_int_t;
 
@@ -33,6 +44,7 @@ function u_int_t ceil(input real number);
 endfunction
 
 
+// include all the uvm files.
 include "ddr3_seq_item.sv";
 include "mode_reg_0.sv";
 include "mode_reg_1.sv";
