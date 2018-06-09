@@ -54,6 +54,7 @@ class ddr3_tb_driver extends uvm_driver#(ddr3_seq_item);
 				
 				ZQ_CAL_L: begin				// Calibration task
 					m_intf.zq_calibration(1);
+					m_intf.nop(512);
 				end
 
 				MSR: begin
@@ -67,7 +68,6 @@ class ddr3_tb_driver extends uvm_driver#(ddr3_seq_item);
 				NOP: begin					// no operation
 					//m_intf.nop(10);
 					m_intf.nop(ddr3_tran.num_nop);
-					$display("inside nop case in driver");
 				end
 
 				//WRITE: begin				// Write operation

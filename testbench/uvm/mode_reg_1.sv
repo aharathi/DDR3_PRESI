@@ -20,7 +20,8 @@ super.new(name);
 endfunction
 
 
-constraint DLL_c_1   { DLL == 1'b1;  }        // Disable Normal
+//constraint DLL_c_1   { DLL == 1'b1;  }        // Disable Normal
+constraint DLL_c_1   { DLL == 1'b0;  }        // Disable Normal
 constraint ODSL_c_1  { ODS == 2'b00; }        // RZQ/6(40 ohm(NOM))
 constraint AL_c_1    { AL == 2'b00;  }        // Disabled
 constraint Q_off_c_1 { Q_off == 1'b0;}        // Enabled

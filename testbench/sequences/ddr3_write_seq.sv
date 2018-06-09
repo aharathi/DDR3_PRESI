@@ -37,6 +37,7 @@ class ddr3_write_seq extends uvm_sequence #(ddr3_seq_item);
 
 
 
+		start_item(ddr3_tran);									// start the transaction
 		ddr3_tran.CMD = WRITE;									// transaction of Write command
 		`uvm_info(m_name,ddr3_tran.conv_to_str(),UVM_HIGH);
 		finish_item(ddr3_tran);									// end of transaction
