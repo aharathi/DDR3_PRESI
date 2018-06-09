@@ -30,7 +30,11 @@ constraint WL_c_1    { WL == 1'b0;   }        // 1'b0
 
 
 function cfg_mode_reg_t pack;
-return {BA,RSV,Q_off,TQDS,RSV,R_TT[2],RSV,WL,R_TT[1],ODS[1],AL,R_TT[0],ODS[0],DLL};
+    return {BA,RSV,Q_off,TQDS,RSV,R_TT[2],RSV,WL,R_TT[1],ODS[1],AL,R_TT[0],ODS[0],DLL};
+endfunction 
+
+function void unpack(cfg_mode_reg_t reg_cfg);
+    {BA,RSV,Q_off,TQDS,RSV,R_TT[2],RSV,WL,R_TT[1],ODS[1],AL,R_TT[0],ODS[0],DLL} = reg_cfg;
 endfunction 
 
 

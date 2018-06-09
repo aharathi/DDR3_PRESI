@@ -4,10 +4,10 @@ class mode_reg_2 extends uvm_object;
 
 string m_name_2 = "MODE_REG_2";
 
-bit  [2:0] BA = 3'b011;
-rand     bit       SRT;
-rand     bit       ASR;
-bit       RSV =   1'b0;
+bit  [2:0] BA = 3'b010;
+rand     bit        SRT;
+rand     bit        ASR;
+bit      RSV =      1'b0;
 rand     bit [2:0] CWL; 
 rand     bit [1:0] R_TT;
 
@@ -26,12 +26,15 @@ constraint R_TT_c    { R_TT == 3'b001;}        // RZQ/4
 
 
 function cfg_mode_reg_t pack;
-return {BA,RSV,RSV,RSV,R_TT,RSV,SRT,ASR,CWL,RSV,RSV,RSV};
+    return {BA,RSV,RSV,RSV,R_TT,RSV,SRT,ASR,CWL,RSV,RSV,RSV};
 endfunction 
 
+function void unpack(cfg_mode_reg_t reg_cfg);
+	{BA,RSV,RSV,RSV,R_TT,RSV,SRT,ASR,CWL,RSV,RSV,RSV} = reg_cfg;
+endfunction 
 
 function string conv_to_str();
-conv_to_str = $sformatf("MODE_REG_2:BA:%b,R_TT:%b,SRT:%b,ASR:%b,CWL:%b",BA,R_TT,SRT,ASR,CWL);
+    conv_to_str = $sformatf("MODE_REG_2:BA:%b,R_TT:%b,SRT:%b,ASR:%b,CWL:%b",BA,R_TT,SRT,ASR,CWL);
 endfunction
 
 

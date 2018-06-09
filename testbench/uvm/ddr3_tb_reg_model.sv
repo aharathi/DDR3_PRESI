@@ -32,7 +32,7 @@ class ddr3_tb_reg_model extends uvm_object;
 	endfunction
 
 	function string conv_to_str();
-		conv_to_str = $sformatf("%s: List of REGS and configurations\n%s\n%s\n%s\n",m_name,reg0.conv_to_str(),reg1.conv_to_str(),reg2.conv_to_str());
+		conv_to_str = $sformatf("%s: List of REGS and configurations\n\t\t%s\n\t\t%s\n\t\t%s\n\t\t",m_name,reg0.conv_to_str(),reg1.conv_to_str(),reg2.conv_to_str());
 	endfunction 
 
 

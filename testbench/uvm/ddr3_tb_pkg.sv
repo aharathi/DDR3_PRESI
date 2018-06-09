@@ -54,10 +54,15 @@ include "ddr3_sequencer.sv";
 include "ddr3_tb_driver.sv";
 include "ddr3_env.sv";
 include "../sequences/ddr3_rst_seq.sv";
-include "../sequences/ddr3_reg_seq.sv";
+include "../sequences/ddr3_mode_reg0_seq.sv";
+include "../sequences/ddr3_mode_reg1_seq.sv";
+include "../sequences/ddr3_mode_reg2_seq.sv";
 include "../sequences/ddr3_set_reg0_seq.sv";
+include "../sequences/ddr3_set_reg1_seq.sv";
+include "../sequences/ddr3_set_reg2_seq.sv";
+include "../sequences/ddr3_set_all_reg_seq.sv";
 include "../tests/ddr3_base_test.sv";
 include "../tests/ddr3_reset_test.sv";
-include "../tests/ddr3_mode_reg0_test.sv";
+include "../tests/ddr3_all_mode_reg_test.sv";
 
 endpackage  
