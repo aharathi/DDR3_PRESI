@@ -67,8 +67,11 @@ include "../sequences/ddr3_set_reg1_seq.sv";
 include "../sequences/ddr3_set_reg2_seq.sv";
 include "../sequences/ddr3_set_reg3_seq.sv";
 include "../sequences/ddr3_set_all_reg_seq.sv";
+include "../sequences/ddr3_write_seq.sv";
+include "../sequences/ddr3_write_test_seq.sv";
 include "../tests/ddr3_base_test.sv";
 include "../tests/ddr3_reset_test.sv";
 include "../tests/ddr3_all_mode_reg_test.sv";
+include "../tests/ddr3_single_write_test.sv";
 
 endpackage  
