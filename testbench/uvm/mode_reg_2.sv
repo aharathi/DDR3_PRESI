@@ -33,6 +33,10 @@ endfunction
 function void unpack(cfg_mode_reg_t reg_cfg);
 	{BA,RSV,RSV,RSV,R_TT,RSV,SRT,ASR,CWL,RSV,RSV,RSV} = reg_cfg;
 endfunction 
+<<<<<<< HEAD
+=======
+
+>>>>>>> c7998e80b21aad1d03ef382fce8d9da232dd1ff1
 
 function string conv_to_str();
     conv_to_str = $sformatf("MODE_REG_2:BA:%b,R_TT:%b,SRT:%b,ASR:%b,CWL:%b",BA,R_TT,SRT,ASR,CWL);
