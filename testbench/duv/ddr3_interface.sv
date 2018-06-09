@@ -139,7 +139,7 @@ endtask
 
 //activate 
 
-task activate( bank_t bank,row_t row);
+task activate( input bit [BA_BITS-1:0] bank,input bit [ROW_BITS-1:0] row);
 begin
     cke   <= 1'b1;
     cs_n  <= 1'b0;
@@ -169,7 +169,7 @@ endtask
 
 //nop
 
-task nop(input u_int_t count);
+task nop(input int unsigned count);
 begin
 	`uvm_info(m_name,"STARTING DDR3 NO OPERATION",UVM_HIGH)
     cke   <= 1'b1;

@@ -9,6 +9,7 @@ class ddr3_set_all_reg_seq extends uvm_sequence #(ddr3_seq_item);
     ddr3_mode_reg2_seq m_mode_reg_2_seq;
     ddr3_mode_reg3_seq m_mode_reg_3_seq;
 
+   ddr3_seq_item ddr3_tran_nop; 
     function new (string name = m_name);
         super.new(name);
     endfunction
@@ -25,7 +26,9 @@ class ddr3_set_all_reg_seq extends uvm_sequence #(ddr3_seq_item);
         m_mode_reg_2_seq = ddr3_mode_reg2_seq::type_id::create("m_mode_reg_2_seq");
         m_mode_reg_3_seq = ddr3_mode_reg3_seq::type_id::create("m_mode_reg_3_seq");
 
-        `uvm_info(m_name,"Starting reset sequence",UVM_HIGH)
+        ddr3_tran_nop = ddr3_seq_item::type_id::create("ddr3_tran_nop");
+       
+       	`uvm_info(m_name,"Starting reset sequence",UVM_HIGH)
         m_rst_seq.start(null,this);
 
         `uvm_info(m_name,"Starting mode reg 0 sequence",UVM_HIGH)
@@ -39,6 +42,13 @@ class ddr3_set_all_reg_seq extends uvm_sequence #(ddr3_seq_item);
         
         `uvm_info(m_name,"Starting mode reg 3 sequence",UVM_HIGH)
         m_mode_reg_3_seq.start(null,this);
+
+	start_item(ddr3_tran_nop);
+	ddr3_tran_nop.CMD = NOP;
+	ddr3_tran_nop.num_nop = ceil(TMOD_TCK);
+	`uvm_info(m_name,"Running NOP after all mode set",UVM_HIGH)
+	finish_item(ddr3_tran_nop);
+    
     
     end
     endtask

@@ -59,9 +59,8 @@ class ddr3_tb_driver extends uvm_driver#(ddr3_seq_item);
 				MSR: begin
 					reg_model_h.load_model(ddr3_tran.mode_cfg);
 					m_intf.load_mode(ddr3_tran.mode_cfg.ba, ddr3_tran.mode_cfg.bus_addr);
-					reg_model_h.conv_to_str();
-					calc_latencies();
-					`uvm_info(m_name,reg_model_h.conv_to_str(),UVM_HIGH);
+					void'(calc_latencies());
+					`uvm_info(m_name,reg_model_h.conv_to_str(),UVM_HIGH)
 					
 				end
 
@@ -71,9 +70,9 @@ class ddr3_tb_driver extends uvm_driver#(ddr3_seq_item);
 					$display("inside nop case in driver");
 				end
 
-				WRITE: begin				// Write operation
-					m_intf.write(ddr3_tran.bank_sel, ddr3_tran.col_addr,0,0,0,ddr3_tran.row_addr);
-				end
+				//WRITE: begin				// Write operation
+				//	m_intf.write(ddr3_tran.bank_sel, ddr3_tran.col_addr,0,0,0,ddr3_tran.row_addr);
+				//end
 
 				ACTIVATE: begin 
 					m_intf.activate(ddr3_tran.addr_proc.bank,ddr3_tran.addr_proc.row);
