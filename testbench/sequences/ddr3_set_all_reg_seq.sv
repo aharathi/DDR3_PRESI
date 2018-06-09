@@ -1,3 +1,9 @@
+////////////////////////////////////////////////////////////////////////////
+//	ddr3_set_all_reg_seq.sv - Setting the all the reg mode and reset sequence 
+//                    
+//	Author:		Ashwin Harathi, Kirtan Mehta, Mohammad Suheb Zameer
+///////////////////////////////////////////////////////////////////////////////
+
 class ddr3_set_all_reg_seq extends uvm_sequence #(ddr3_seq_item);
     `uvm_object_utils(ddr3_set_all_reg_seq)
 

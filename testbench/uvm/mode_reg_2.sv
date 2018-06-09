@@ -1,4 +1,11 @@
-//mode register 2
+
+////////////////////////////////////////////////////////////////////////////
+//	mode_reg_2.sv - Setting the mode reg sequence 2 by adding constraints
+//
+//	Author:		Ashwin Harathi, Kirtan Mehta, Mohammad Suheb Zameer
+//
+///////////////////////////////////////////////////////////////////////////////
+
 class mode_reg_2 extends uvm_object;
 `uvm_object_utils(mode_reg_2)
 
@@ -15,21 +22,21 @@ rand     bit [1:0] R_TT;
 
 function new(string name = m_name_2);
 super.new(name);
-endfunction
+endfunction         // new function
 
-
+// adding constraints for mode 2
 constraint SRT_c     { SRT == 1'b0;   }        // Normal
 constraint ASR_c     { ASR == 1'b0;   }        // Disabled: manual 
 constraint CWL_c     { CWL == 3'b000; }        // 5 CK 
 constraint R_TT_c    { R_TT == 3'b001;}        // RZQ/4   
 
 
-
+// pack into a vector
 function cfg_mode_reg_t pack;
     return {BA,RSV,RSV,RSV,R_TT,RSV,SRT,ASR,CWL,RSV,RSV,RSV};
 endfunction 
 
-
+// unpack
 function void unpack(cfg_mode_reg_t reg_cfg);
 	{BA,RSV,RSV,RSV,R_TT,RSV,SRT,ASR,CWL,RSV,RSV,RSV} = reg_cfg;
 endfunction 

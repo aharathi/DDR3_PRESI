@@ -1,9 +1,17 @@
 //mode register 1
+
+////////////////////////////////////////////////////////////////////////////
+//	mode_reg_1.sv - Setting the mode reg sequence 1 by adding constraints
+//
+//	Author:		Ashwin Harathi, Kirtan Mehta, Mohammad Suheb Zameer
+//
+///////////////////////////////////////////////////////////////////////////////
 class mode_reg_1 extends uvm_object;
 `uvm_object_utils(mode_reg_1)
 
 string m_name_1 = "MODE_REG_1";
 
+// Variables inside the mode_reg_1
 bit  [2:0] BA=3'b001;
 rand    bit      DLL;
 rand   bit [1:0] ODS;

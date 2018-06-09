@@ -1,10 +1,18 @@
 
+////////////////////////////////////////////////////////////////////////////
+//	ddr3_tb_reg_model.sv - Setting the all mode reg sequence 
+//
+//	Author:		Ashwin Harathi, Kirtan Mehta, Mohammad Suheb Zameer
+//
+///////////////////////////////////////////////////////////////////////////////
+
 
 class ddr3_tb_reg_model extends uvm_object;
 	`uvm_object_utils(ddr3_tb_reg_model)
 
 	string m_name = "DDR3_TB_REG_MODEL";
 
+	// handle for all mode 
 	mode_reg_0 reg0;
 	mode_reg_1 reg1;
 	mode_reg_2 reg2;
@@ -22,10 +30,11 @@ class ddr3_tb_reg_model extends uvm_object;
 		assert(reg1.randomize());
 		assert(reg2.randomize());
 		assert(reg3.randomize());
-	endfunction
+	endfunction				// new function
 
+	// Load the model by seeing the bank and unpack it
 	function void load_model(input cfg_mode_reg_t reg_cfg);
-		case (reg_cfg.ba) //{
+		case (reg_cfg.ba) 
 			2'b00: reg0.unpack(reg_cfg);
 			2'b01: reg1.unpack(reg_cfg);
 			2'b10: reg2.unpack(reg_cfg);
