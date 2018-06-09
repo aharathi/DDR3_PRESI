@@ -1,4 +1,10 @@
-//ddr3 seq item 
+//////////////////////////////////////////////////////////////////////////////////////////////////
+//	ddr3_seq_item.sv -  A sequence item which iclues the signals and the commands of controller
+//
+//	Author:		Ashwin Harathi, Kirtan Mehta, Mohammad Suheb Zameer
+//
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 class ddr3_seq_item extends uvm_sequence_item;
 
@@ -29,7 +35,7 @@ class ddr3_seq_item extends uvm_sequence_item;
 
 	function new (string name = m_name);
 		super.new(name);
-	endfunction
+	endfunction																					// new 
 
 	constraint data_c { foreach (data_proc[i]) data_proc[i] inside {[1:8]}; }
 	//constraint addr_c { addr_proc inside {[1:100]}; }
@@ -46,7 +52,5 @@ class ddr3_seq_item extends uvm_sequence_item;
 		conv_to_str = $sformatf("%s::COMMAND:%s,DATA:%p,MODE_CFG:%b,ADDR:%h,ROW_ADDR:%h,BANK_SEL:%h,COLOMN_ADDR:%h,NUM_NOP:%0d,AP:%b,OTF:%b,WR/RD_cmd_addr:%h",m_name,CMD,data_proc,mode_cfg,addr_proc,row_addr,bank_sel,col_addr,num_nop,auto_pre,bc_bl_otf,wr_rd_cmd_addr);
 	endfunction 
 	
-		
-
 
 endclass

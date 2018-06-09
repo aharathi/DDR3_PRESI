@@ -14,7 +14,7 @@ class ddr3_rst_seq extends uvm_sequence #(ddr3_seq_item);
 	
 	function new (string name = m_name);
 		super.new(name);
-	endfunction 
+	endfunction 							//new
 
 	task body;
 		`uvm_info(m_name,"Starting RESET sequence",UVM_HIGH)
@@ -26,6 +26,11 @@ class ddr3_rst_seq extends uvm_sequence #(ddr3_seq_item);
 		`uvm_info(m_name,ddr3_tran.conv_to_str(),UVM_HIGH);
 		finish_item(ddr3_tran);				// End the transaction
 	
+		start_item(ddr3_tran);				// Start the transaction
+		// assert(ddr3_tran.randomize())		// Randomize
+		ddr3_tran.CMD = ZQ_CAL_L;				// Issue Reset Command
+		`uvm_info(m_name,ddr3_tran.conv_to_str(),UVM_HIGH);
+		finish_item(ddr3_tran);	
 	endtask 
 
 endclass

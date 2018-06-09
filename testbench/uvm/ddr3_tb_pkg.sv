@@ -22,6 +22,7 @@ parameter MASK_I=0;
 // Various commands that are done in Memory Controller
 typedef enum {DESELECT,NOP,ZQ_CAL_L,ZQ_CAL_S,ACTIVATE,READ,WRITE,PRECHARGE,REFRESH,SELF_REFRESH,DLL_DIS,MSR,RESET} command_t;
 
+						// usedefined data type for the rows column and bank
 typedef bit [ROW_BITS-1:0]  row_t;
 typedef bit [BA_BITS-1:0]   bank_t;
 typedef bit [COL_BITS-1:0]  column_t;
@@ -30,6 +31,7 @@ typedef logic [DQ_BITS-1:0]   data_t;
 
 typedef bit [ADDR_BITS-1:0] bus_addr_t;
 
+					// structure for the adrress bus
 typedef struct packed {bank_t ba;bus_addr_t bus_addr;} cfg_mode_reg_t;
 
 typedef struct packed {row_t row;bank_t bank;column_t column;} proc_addr_t;  // address packed as row bank and column
