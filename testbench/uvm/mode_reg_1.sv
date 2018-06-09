@@ -37,12 +37,8 @@ function void unpack(cfg_mode_reg_t reg_cfg);
     {BA,RSV,Q_off,TQDS,RSV,R_TT[2],RSV,WL,R_TT[1],ODS[1],AL,R_TT[0],ODS[0],DLL} = reg_cfg;
 endfunction 
 
-function void unpack(input cfg_mode_reg_t reg_cfg);
- {BA,RSV,Q_off,TQDS,RSV,R_TT[2],RSV,WL,R_TT[1],ODS[1],AL,R_TT[0],ODS[0],DLL} = reg_cfg;
-endfunction
-
 function string conv_to_str();
-conv_to_str = $sformatf("MODE_REG_1:BA:%b,Q_off:%b,TDQS:%b,R_TT:%b,WL:%b,ODS:%b,AL:%b,DLL:%b",BA,Q_off,TQDS,R_TT,WL,ODS,AL,DLL);
+    conv_to_str = $sformatf("MODE_REG_1:BA:%b,Q_off:%b,TDQS:%b,R_TT:%b,WL:%b,ODS:%b,AL:%b,DLL:%b",BA,Q_off,TQDS,R_TT,WL,ODS,AL,DLL);
 endfunction
 
 
