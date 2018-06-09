@@ -1,9 +1,4 @@
 
-
-
-//base test 
-
-
 class ddr3_base_test extends uvm_test;
 `uvm_component_utils(ddr3_base_test)
 
