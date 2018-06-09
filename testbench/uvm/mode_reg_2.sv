@@ -29,6 +29,9 @@ function cfg_mode_reg_t pack;
 return {BA,RSV,RSV,RSV,R_TT,RSV,SRT,ASR,CWL,RSV,RSV,RSV};
 endfunction 
 
+function void unpack(input cfg_mode_reg_t reg_cfg);
+ {BA,RSV,RSV,RSV,R_TT,RSV,SRT,ASR,CWL,RSV,RSV,RSV} = reg_cfg;
+endfunction
 
 function string conv_to_str();
 conv_to_str = $sformatf("MODE_REG_2:BA:%b,R_TT:%b,SRT:%b,ASR:%b,CWL:%b",BA,R_TT,SRT,ASR,CWL);
