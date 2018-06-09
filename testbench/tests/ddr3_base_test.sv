@@ -19,7 +19,7 @@ endfunction
 function void build_phase(uvm_phase phase);
 	super.build_phase(phase);
 	m_reg_model = ddr3_tb_reg_model::type_id::create("m_reg_model");
-	assert(uvm_config_db #(ddr3_tb_reg_model)::set(this,"*","reg_model",m_reg_model))
+	uvm_config_db #(ddr3_tb_reg_model)::set(this,"*","reg_model",m_reg_model);
 	m_env = ddr3_env::type_id::create("m_env",this);
 endfunction
 

@@ -39,7 +39,7 @@ class ddr3_mode_reg0_seq extends uvm_sequence #(ddr3_seq_item);
 		ddr3_tran.num_nop = ceil(TRP/TCK_MIN); 
 		finish_item(ddr3_tran);
 
-		`uvm_info(m_name,"configuring the Mode register",UVM_HIGH)
+		`uvm_info(m_name,"configuring the Mode 0 register",UVM_HIGH)
 		reg_0 = mode_reg_0::type_id::create("reg_0");
 		 ddr3_tran = ddr3_seq_item::type_id::create("ddr3_tran");
 		start_item(ddr3_tran);

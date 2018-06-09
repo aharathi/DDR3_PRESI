@@ -61,6 +61,8 @@ class ddr3_tb_driver extends uvm_driver#(ddr3_seq_item);
 					m_intf.load_mode(ddr3_tran.mode_cfg.ba, ddr3_tran.mode_cfg.bus_addr);
 					reg_model_h.conv_to_str();
 					calc_latencies();
+					`uvm_info(m_name,reg_model_h.conv_to_str(),UVM_HIGH);
+					
 				end
 
 				NOP: begin					// no operation
