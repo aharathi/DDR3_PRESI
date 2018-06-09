@@ -32,8 +32,24 @@ tri   [DQS_BITS-1:0] tdqs_n;
 real tck;
 wire ck_n = ~ck;
 
+
 string m_name = "DDR3_INTERFACE";
 
+bit dqs_en;
+bit dq_en;
+
+int unsigned wl = AL_MAX + CWL_MAX;
+int unsigned bl = BL_MAX;
+
+bit [DQS_BITS-1:0] dqs_out;
+logic [DQ_BITS-1:0] dq_out;
+bit [DM_BITS-1:0] dm_out;
+
+
+assign dqs = dqs_en ? dqs_out : 'bz;
+assign dqs_n = dqs_en ? ~dqs_out : 'bz;
+assign dq = dq_en ? dq_out : 'bz;
+assign dm_tdqs = dq_en ? dm_out : 'bz; 
 
 initial
 begin
@@ -123,7 +139,7 @@ endtask
 
 //activate 
 
-task activate( input [BA_BITS-1:0] bank,input [ROW_BITS-1:0] row);
+task activate( bank_t bank,row_t row);
 begin
     cke   <= 1'b1;
     cs_n  <= 1'b0;
@@ -153,7 +169,7 @@ endtask
 
 //nop
 
-task nop(input [31:0] count);
+task nop(input u_int_t count);
 begin
 	`uvm_info(m_name,"STARTING DDR3 NO OPERATION",UVM_HIGH)
     cke   <= 1'b1;
@@ -168,48 +184,61 @@ end
 endtask
 
 task write;
-    input   [BA_BITS-1:0] bank;
-    input  [COL_BITS-1:0] col;
-    input                 ap; //Auto Precharge
-    input                 bc; //Burst Chop  
-    input [8*DM_BITS-1:0] dm;
-    input [8*DQ_BITS-1:0] dq;
-    reg   [ADDR_BITS-1:0] atemp [2:0];
-    integer i;
+    	input   bit [BA_BITS-1:0] bank;
+    	input  	bit [ADDR_BITS-1:0] bus_addr;
+    	input 	int unsigned  BL;
+	input	logic [DQ_BITS-1:0] dq [BL_MAX];
+	input	bit [DM_BITS-1:0] dm_v[BL_MAX];
+	input 	int unsigned WL; 
+	int unsigned  i;
     begin
-        cke   <= 1'b1;
+	`uvm_info(m_name,"STARTING DDR3 WRITE OPERATION",UVM_HIGH)
+	wl = (WL<wl)? WL : wl;
+	bl = (BL<bl)? BL : bl;
+	
+	if (BL == 'd1) begin 
+	`uvm_info(m_name,"SELECTED ON THE FLY PROGRAMMING OF BURST LENGTH",UVM_HIGH)
+	if (bus_addr[12] == 1'b1) 
+	`uvm_info(m_name,"BL 8 SELECTED",UVM_HIGH)
+	else 
+	`uvm_info(m_name,"BL 4 SELECTED",UVM_HIGH)
+	end
+       
+	if (bus_addr[10] == 1'b1) 
+	`uvm_info(m_name,"AUTO PRECHARGE SELECTED",UVM_HIGH)
+	else
+	`uvm_info(m_name,"AUTO PRECHARGE NOT SELECTED",UVM_HIGH)
+
+ 
+	cke   <= 1'b1;
         cs_n  <= 1'b0;
         ras_n <= 1'b1;
         cas_n <= 1'b0;
         we_n  <= 1'b0;
         ba    <= bank;
 
-        atemp[0] = col & 10'h3ff;         //a[ 9: 0] = COL[ 9: 0]
-        atemp[1] = ((col>>10) & 1'h1)<<11;//a[   11] = COL[   10]
-        atemp[2] = (col>>11)<<13;         //a[ N:13] = COL[ N:11]
-        addr     <= atemp[0] | atemp[1] | atemp[2] | (ap<<10) | (bc<<12);
+	
+	addr <= bus_addr;
 
-        // casex ({bc, mode_reg0[1:0]})
-        //     3'bx00, 3'b101:bl=8;
-        //     3'bx1x, 3'b001:bl=4;
-        // endcase
 
-        // dqs_en <= #(wl*tck-tck/2) 1'b1;
-        // dqs_out <= #(wl*tck-tck/2) {DQS_BITS{1'b1}};
-        // for (i=0; i<=bl; i=i+1) begin
-        //     dqs_en <= #(wl*tck + i*tck/2) 1'b1;
-        //     if (i%2 == 0) begin
-        //         dqs_out <= #(wl*tck + i*tck/2) {DQS_BITS{1'b0}};
-        //     end else begin
-        //         dqs_out <= #(wl*tck + i*tck/2) {DQS_BITS{1'b1}};
-        //     end
+         dqs_en <= #(wl*tck-tck/2) 1'b1;
+         dqs_out <= #(wl*tck-tck/2) {DQS_BITS{1'b1}};
+	`uvm_info(m_name,"STARTING DDR3 WRITE DATA BURST",UVM_HIGH)
+         for (i=0; i<=bl; i=i+1) begin
+	`uvm_info(m_name,$sformatf("SENDING DATA FOR BURST %d",i),UVM_HIGH)
+             dqs_en <= #(wl*tck + i*tck/2) 1'b1;
+             if (i%2 == 0) begin
+                 dqs_out <= #(wl*tck + i*tck/2) {DQS_BITS{1'b0}};
+             end else begin
+                 dqs_out <= #(wl*tck + i*tck/2) {DQS_BITS{1'b1}};
+             end
 
-        //     dq_en  <= #(wl*tck + i*tck/2 + tck/4) 1'b1;
-        //     dm_out <= #(wl*tck + i*tck/2 + tck/4) dm>>i*DM_BITS;
-        //     dq_out <= #(wl*tck + i*tck/2 + tck/4) dq>>i*DQ_BITS;
-        // end
-        // dqs_en <= #(wl*tck + bl*tck/2 + tck/2) 1'b0;
-        // dq_en  <= #(wl*tck + bl*tck/2 + tck/4) 1'b0;
+             dq_en  <= #(wl*tck + i*tck/2 + tck/4) 1'b1;
+             dm_out <= #(wl*tck + i*tck/2 + tck/4) dm_v[i];
+             dq_out <= #(wl*tck + i*tck/2 + tck/4) dq[i];
+         end
+         dqs_en <= #(wl*tck + bl*tck/2 + tck/2) 1'b0;
+         dq_en  <= #(wl*tck + bl*tck/2 + tck/4) 1'b0;
         @(negedge ck);  
     end
 endtask
