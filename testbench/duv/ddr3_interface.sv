@@ -193,8 +193,8 @@ task write;
 	int unsigned  i;
     begin
 	`uvm_info(m_name,"STARTING DDR3 WRITE OPERATION",UVM_HIGH)
-	wl = (WL<wl)? WL : wl;
-	bl = (BL<bl)? BL : bl;
+	wl =  WL;
+	bl = BL;
 	
 	if (BL == 'd1) begin 
 	`uvm_info(m_name,"SELECTED ON THE FLY PROGRAMMING OF BURST LENGTH",UVM_HIGH)
@@ -232,13 +232,21 @@ task write;
              end else begin
                  dqs_out <= #(wl*tck + i*tck/2) {DQS_BITS{1'b1}};
              end
-
-             dq_en  <= #(wl*tck + i*tck/2 + tck/4) 1'b1;
-             dm_out <= #(wl*tck + i*tck/2 + tck/4) dm_v[i];
-             dq_out <= #(wl*tck + i*tck/2 + tck/4) dq[i];
+	
+	      #(wl*tck + i*tck/2 + tck/4);
+	     
+	     dq_en  <=  1'b1;
+             dm_out <=  dm_v[i];
+             dq_out <=  dq[i];
+	     //dq_en  <= #(wl*tck + i*tck/2 + tck/4) 1'b1;
+             //dm_out <= #(wl*tck + i*tck/2 + tck/4) dm_v[i];
+             //dq_out <= #(wl*tck + i*tck/2 + tck/4) dq[i];
          end
-         dqs_en <= #(wl*tck + bl*tck/2 + tck/2) 1'b0;
-         dq_en  <= #(wl*tck + bl*tck/2 + tck/4) 1'b0;
+          #(wl*tck + bl*tck/2 + tck/2);
+         dqs_en <= 1'b0;
+         dq_en  <= 1'b0;
+         //dqs_en <= #(wl*tck + bl*tck/2 + tck/2) 1'b0;
+         //dq_en  <= #(wl*tck + bl*tck/2 + tck/4) 1'b0;
         @(negedge ck);  
     end
 endtask
