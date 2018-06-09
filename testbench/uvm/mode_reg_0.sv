@@ -35,7 +35,7 @@ function cfg_mode_reg_t pack;
     return {BA,RSV,PD,WR,DLL,RSV,CAS[3:1],BT,CAS[0],BL};
 endfunction 
 
-function void unpack(cfg_mode_reg_t reg_cfg);
+function void unpack(input cfg_mode_reg_t reg_cfg);
 	{BA,RSV,PD,WR,DLL,RSV,CAS[3:1],BT,CAS[0],BL} = reg_cfg;
 endfunction 
 
