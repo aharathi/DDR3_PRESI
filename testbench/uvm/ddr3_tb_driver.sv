@@ -12,6 +12,8 @@ class ddr3_tb_driver extends uvm_driver#(ddr3_seq_item);
 	`uvm_component_utils(ddr3_tb_driver)
 
 	string m_name = "DDR3_TB_DRIVER";
+	    
+	u_int_t cl,bl,cwl,al,rl,wl;
 
 	virtual ddr3_interface m_intf; 	//interface
 	ddr3_tb_reg_model reg_model_h;
@@ -32,7 +34,8 @@ class ddr3_tb_driver extends uvm_driver#(ddr3_seq_item);
     task run_phase(uvm_phase phase);
 
 	    ddr3_seq_item ddr3_tran;
-
+		
+		
 	    forever begin 
 			
 			// handshake with the sequencer to take the transaction from the sequencer
@@ -56,18 +59,33 @@ class ddr3_tb_driver extends uvm_driver#(ddr3_seq_item);
 				MSR: begin
 					reg_model_h.load_model(ddr3_tran.mode_cfg);
 					m_intf.load_mode(ddr3_tran.mode_cfg.ba, ddr3_tran.mode_cfg.bus_addr);
+					reg_model_h.conv_to_str();
+					calc_latencies();
 					`uvm_info(m_name,reg_model_h.conv_to_str(),UVM_HIGH);
 					
 				end
 
 				NOP: begin					// no operation
-					m_intf.nop(10);
+					//m_intf.nop(10);
+					m_intf.nop(ddr3_tran.num_nop);
 					$display("inside nop case in driver");
 				end
 
 				WRITE: begin				// Write operation
 					m_intf.write(ddr3_tran.bank_sel, ddr3_tran.col_addr,0,0,0,ddr3_tran.row_addr);
 				end
+
+				ACTIVATE: begin 
+					m_intf.activate(ddr3_tran.addr_proc.bank,ddr3_tran.addr_proc.row);
+					end
+
+				WRITE: begin 
+					if (bl == 'd1) `uvm_info(m_name,"On the fly burst mode enabled",UVM_HIGH)
+					if (bl == 'd0) bl = 'd8;
+					if (bl == 'd2) bl = 'd4;
+					
+					m_intf.write(ddr3_tran.wr_rd_cmd_addr.ba,ddr3_tran.wr_rd_cmd_addr.bus_addr,bl,ddr3_tran.data_proc,ddr3_tran.dm,wl);
+				end 
 
 		    endcase 
 
@@ -77,6 +95,15 @@ class ddr3_tb_driver extends uvm_driver#(ddr3_seq_item);
 
 	    end //}
 
-	endtask 
+	endtask
+
+	function void calc_latencies();
+			cl = reg_model_h.reg0.CAS + 4;
+			bl = reg_model_h.reg0.BL;
+			cwl = reg_model_h.reg2.CWL + 5;
+			al = (reg_model_h.reg1.AL == 0) ? 'h0 : cl - reg_model_h.reg1.AL;
+			rl = cl + al;
+			wl = cwl + al;
+	endfunction 	
 	
 endclass //ddr3_tb_driver extends uvm_drive

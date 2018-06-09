@@ -16,7 +16,8 @@ package ddr3_tb_pkg;
 `include "1024Mb_ddr3_parameters.vh";
 import uvm_pkg::*;
 
-parameter BURST_LEN = 8; 
+parameter MASK=1;
+parameter MASK_I=0;
 
 // Various commands that are done in Memory Controller
 typedef enum {DESELECT,NOP,ZQ_CAL_L,ZQ_CAL_S,ACTIVATE,READ,WRITE,PRECHARGE,REFRESH,SELF_REFRESH,DLL_DIS,MSR,RESET} command_t;
@@ -26,7 +27,7 @@ typedef bit [ROW_BITS-1:0]  row_t;
 typedef bit [BA_BITS-1:0]   bank_t;
 typedef bit [COL_BITS-1:0]  column_t;
 
-typedef bit [DQ_BITS-1:0]   data_t;
+typedef logic [DQ_BITS-1:0]   data_t;
 
 typedef bit [ADDR_BITS-1:0] bus_addr_t;
 
