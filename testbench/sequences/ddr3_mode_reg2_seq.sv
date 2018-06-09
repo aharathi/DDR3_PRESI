@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////////////////////////
-//	ddr3_reg_seq.sv -  A sequence for doing Precharge and Configuring mode registers operation 
+//	ddr3_mode_reg2_seq.sv -  A sequence for doing Precharge and Configuring mode 2 registers operation 
 //
 //	Author:		Ashwin Harathi, Kirtan Mehta, Mohammad Suheb Zameer
 //
