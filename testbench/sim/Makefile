@@ -17,6 +17,9 @@ build :
 run :
 	vsim -c -novopt -cover ddr3_hvl_top ddr3_top +UVM_TESTNAME=$(TEST) $(EXTRA)  -do "run -all;coverage save -onexit ddr3_cov.ucdb;exit"
 
+gui :
+	vsim -i -novopt ddr3_hvl_top ddr3_top +UVM_TESTNAME=$(TEST) $(EXTRA) 
+
 extract :
 	vcover report -details -html ddr3_cov.ucdb
 

@@ -50,6 +50,7 @@ endfunction
 
 
 // include all the uvm files.
+//include "../duv/ddr3_interface.sv";
 include "ddr3_seq_item.sv";
 include "mode_reg_0.sv";
 include "mode_reg_1.sv";

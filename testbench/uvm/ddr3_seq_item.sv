@@ -42,6 +42,7 @@ class ddr3_seq_item extends uvm_sequence_item;
 	constraint row_c { row_addr inside {[1:4]}; }
 	constraint bank_c { bank_sel inside {[0:7]};}
 	constraint col_c { col_addr inside {[10:100]};}
+	constraint ap_c {auto_pre == 1'b1; }
 
 	function void post_randomize();
 		addr_proc = {row_addr,bank_sel,col_addr};

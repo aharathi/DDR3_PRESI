@@ -549,8 +549,8 @@ module ddr3 (
         if ((1<<BO_BITS) > BL_MAX) 
             $display("%m ERROR: 2^BO_BITS cannot be greater than BL_MAX parameter.");
 
-        //$timeformat (-12, 1, " ps", 1);
-        $timeformat (-9, 3, " ns", 1);
+        $timeformat (-12, 3, " ps", 10);
+        //$timeformat (-9, 3, " ns", 1);
         seed = RANDOM_SEED;
 
         ck_cntr = 0;

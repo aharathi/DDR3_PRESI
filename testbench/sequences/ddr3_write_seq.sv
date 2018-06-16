@@ -45,7 +45,7 @@ class ddr3_write_seq extends uvm_sequence #(ddr3_seq_item);
 		
 		start_item(ddr3_tran_nop);									// start the transaction
 		ddr3_tran_nop.CMD = NOP;
-		ddr3_tran_nop.num_nop = 200;
+		ddr3_tran_nop.num_nop = 20000;
 		finish_item(ddr3_tran_nop);									// start the transaction
 	
 	endtask 

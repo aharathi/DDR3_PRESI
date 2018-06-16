@@ -10,6 +10,7 @@
    `include "1024Mb_ddr3_parameters.vh"
    `include "uvm_macros.svh"
    import uvm_pkg::*;
+   import ddr3_tb_pkg::*;
 interface ddr3_interface();
 
    
@@ -53,7 +54,7 @@ assign dm_tdqs = dq_en ? dm_out : 'bz;
 
 initial
 begin
-	$timeformat (-9,3," ns",1);
+	$timeformat (-12,3," ps",10);
     tck = TCK_MIN;
     ck  = 1'b1;
 end
@@ -192,9 +193,12 @@ task write;
 	input 	int unsigned WL; 
 	int unsigned  i;
     begin
+	$display("B:wl=%0d,bl=%0d",wl,bl);
 	`uvm_info(m_name,"STARTING DDR3 WRITE OPERATION",UVM_HIGH)
 	wl =  WL;
 	bl = BL;
+	
+	$display("A:wl=%0d,bl=%0d",wl,bl);
 	
 	if (BL == 'd1) begin 
 	`uvm_info(m_name,"SELECTED ON THE FLY PROGRAMMING OF BURST LENGTH",UVM_HIGH)
@@ -210,43 +214,145 @@ task write;
 	`uvm_info(m_name,"AUTO PRECHARGE NOT SELECTED",UVM_HIGH)
 
  
-	cke   <= 1'b1;
-        cs_n  <= 1'b0;
-        ras_n <= 1'b1;
-        cas_n <= 1'b0;
-        we_n  <= 1'b0;
-        ba    <= bank;
+	cke   = 1'b1;
+        cs_n  = 1'b0;
+        ras_n = 1'b1;
+        cas_n = 1'b0;
+        we_n  = 1'b0;
+        ba    = bank;
 
 	
-	addr <= bus_addr;
+	addr = bus_addr;
 
+	@(negedge ck);
 
-         dqs_en <= #(wl*tck-tck/2) 1'b1;
-         dqs_out <= #(wl*tck-tck/2) {DQS_BITS{1'b1}};
+        cas_n = 1'b1;
+        we_n  = 1'b1;
+
+	$display("%0t,Waiting for one clock before deassertion\n",$time);
+	#(wl*tck-tck/2);
+	$display("%0t,Done for one clock before deassertion\n",$time);
+        cas_n = 1'b1;
+        we_n  = 1'b1;
+	
+         dqs_en = 1'b1;
+         dqs_out = {DQS_BITS{1'b1}};
+
+	 @(posedge ck);
+         #(tck/4);
+	 //dqs_out = {DQS_BITS{1'b0}};
+	 //#(tck/4);
 	`uvm_info(m_name,"STARTING DDR3 WRITE DATA BURST",UVM_HIGH)
-         for (i=0; i<=bl; i=i+1) begin
+         for (i=1; i<=bl; i=i+1) begin
 	`uvm_info(m_name,$sformatf("SENDING DATA FOR BURST %d",i),UVM_HIGH)
-             dqs_en <= #(wl*tck + i*tck/2) 1'b1;
-             if (i%2 == 0) begin
-                 dqs_out <= #(wl*tck + i*tck/2) {DQS_BITS{1'b0}};
-             end else begin
-                 dqs_out <= #(wl*tck + i*tck/2) {DQS_BITS{1'b1}};
-             end
+             //#(wl*tck + i*tck/2);
+	 dqs_out = {DQS_BITS{1'b0}};
+	 #(tck/4);
+
+            //dqs_en = 1'b1;
+            // if (i%2 == 0) begin
+            //     dqs_out <= #(wl*tck + i*tck/2) {DQS_BITS{1'b0}};
+            // end else begin
+            //     dqs_out <= #(wl*tck + i*tck/2) {DQS_BITS{1'b1}};
+            // end
 	
-	      #(wl*tck + i*tck/2 + tck/4);
 	     
-	     dq_en  <=  1'b1;
-             dm_out <=  dm_v[i];
-             dq_out <=  dq[i];
+	     dq_en  =  1'b1;
+             dm_out =  dm_v[i];
+             dq_out =  dq[i];
+	     #(tck/4);
+         	dqs_out = {DQS_BITS{1'b1}};
+		
 	     //dq_en  <= #(wl*tck + i*tck/2 + tck/4) 1'b1;
              //dm_out <= #(wl*tck + i*tck/2 + tck/4) dm_v[i];
              //dq_out <= #(wl*tck + i*tck/2 + tck/4) dq[i];
+	     #(tck/4);
          end
-          #(wl*tck + bl*tck/2 + tck/2);
-         dqs_en <= 1'b0;
-         dq_en  <= 1'b0;
+         dqs_en = 1'b0;
+         dq_en  = 1'b0;
          //dqs_en <= #(wl*tck + bl*tck/2 + tck/2) 1'b0;
          //dq_en  <= #(wl*tck + bl*tck/2 + tck/4) 1'b0;
+
+	//cke   <= 1'b1;
+        //cs_n  <= 1'b0;
+        //ras_n <= 1'b1;
+        //cas_n <= 1'b0;
+        //we_n  <= 1'b0;
+        //ba    <= bank;
+
+	//
+	//addr <= bus_addr;
+
+
+        // dqs_en <= #(wl*tck-tck/2) 1'b1;
+        // dqs_out <= #(wl*tck-tck/2) {DQS_BITS{1'b1}};
+        // cs_n  <= #(tck) 1'b1;
+	//`uvm_info(m_name,"STARTING DDR3 WRITE DATA BURST",UVM_HIGH)
+        // for (i=1; i<=bl; i=i+1) begin
+	//`uvm_info(m_name,$sformatf("SENDING DATA FOR BURST %d",i),UVM_HIGH)
+        //     #(wl*tck + i*tck/2);
+        //     dqs_en <= 1'b1;
+        //     if (i%2 == 0) begin
+        //         dqs_out <= #(wl*tck + i*tck/2) {DQS_BITS{1'b0}};
+        //     end else begin
+        //         dqs_out <= #(wl*tck + i*tck/2) {DQS_BITS{1'b1}};
+        //     end
+	//
+	//      #(wl*tck + i*tck/2 + tck/4);
+	//     
+	//     dq_en  <=  1'b1;
+        //     dm_out <=  dm_v[i];
+        //     dq_out <=  dq[i];
+	//     //dq_en  <= #(wl*tck + i*tck/2 + tck/4) 1'b1;
+        //     //dm_out <= #(wl*tck + i*tck/2 + tck/4) dm_v[i];
+        //     //dq_out <= #(wl*tck + i*tck/2 + tck/4) dq[i];
+        // end
+        //  #(wl*tck + bl*tck/2 + tck/2);
+        // dqs_en <= 1'b0;
+        // dq_en  <= 1'b0;
+        // //dqs_en <= #(wl*tck + bl*tck/2 + tck/2) 1'b0;
+        // //dq_en  <= #(wl*tck + bl*tck/2 + tck/4) 1'b0;
+
+
+	//cke   <= 1'b1;
+        //cs_n  <= 1'b0;
+        //ras_n <= 1'b1;
+        //cas_n <= 1'b0;
+        //we_n  <= 1'b0;
+        //ba    <= bank;
+
+	//
+	//addr <= bus_addr;
+
+
+        // dqs_en <= #(wl*tck-tck/2) 1'b1;
+        // dqs_out <= #(wl*tck-tck/2) {DQS_BITS{1'b1}};
+        // cs_n  <= #(tck) 1'b1;
+	//`uvm_info(m_name,"STARTING DDR3 WRITE DATA BURST",UVM_HIGH)
+        // for (i=0; i<=bl; i=i+1) begin
+	//`uvm_info(m_name,$sformatf("SENDING DATA FOR BURST %d",i),UVM_HIGH)
+        //     #(wl*tck + i*tck/2);
+        //     dqs_en <= 1'b1;
+        //     if (i%2 == 0) begin
+        //         dqs_out <= #(wl*tck + i*tck/2) {DQS_BITS{1'b0}};
+        //     end else begin
+        //         dqs_out <= #(wl*tck + i*tck/2) {DQS_BITS{1'b1}};
+        //     end
+	//
+	//      #(wl*tck + i*tck/2 + tck/4);
+	//     
+	//     dq_en  <=  1'b1;
+        //     dm_out <=  dm_v[i];
+        //     dq_out <=  dq[i];
+	//     //dq_en  <= #(wl*tck + i*tck/2 + tck/4) 1'b1;
+        //     //dm_out <= #(wl*tck + i*tck/2 + tck/4) dm_v[i];
+        //     //dq_out <= #(wl*tck + i*tck/2 + tck/4) dq[i];
+        // end
+        //  #(wl*tck + bl*tck/2 + tck/2);
+        // dqs_en <= 1'b0;
+        // dq_en  <= 1'b0;
+        // //dqs_en <= #(wl*tck + bl*tck/2 + tck/2) 1'b0;
+        // //dq_en  <= #(wl*tck + bl*tck/2 + tck/4) 1'b0;
         @(negedge ck);  
     end
 endtask
