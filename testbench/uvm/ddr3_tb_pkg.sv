@@ -60,6 +60,7 @@ include "ddr3_tb_reg_model.sv";
 include "ddr3_sequencer.sv";
 include "ddr3_tb_driver.sv";
 include "ddr3_input_monitor.sv";
+include "ddr3_coverage.sv";
 include "ddr3_env.sv";
 include "../sequences/ddr3_rst_seq.sv";
 include "../sequences/ddr3_mode_reg0_seq.sv";
