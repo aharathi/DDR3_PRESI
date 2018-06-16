@@ -54,4 +54,27 @@ class ddr3_seq_item extends uvm_sequence_item;
 	endfunction 
 	
 
+	function void do_copy (uvm_object rhs);
+
+		ddr3_seq_item rhs_;
+
+		if (!$cast(rhs_,rhs)) begin 
+			`uvm_fatal(m_name,"copy failed");
+		end 
+		super.do_copy(rhs);
+		this.CMD 	= 	rhs_.CMD;
+		this.data_proc 	= 	rhs_.data_proc;
+		this.mode_cfg 	= 	rhs_.mode_cfg;
+		this.addr_proc 	=	rhs_.addr_proc;
+		this.dm		=	rhs_.dm;
+		wr_rd_cmd_addr	=	rhs_.wr_rd_cmd_addr;
+		this.row_addr	=	rhs_.row_addr;
+		this.bank_sel	=	rhs_.bank_sel;
+		this.col_addr	=	rhs_.col_addr;
+		this.auto_pre	=	rhs_.auto_pre;
+		this.bc_bl_otf	=	rhs_.bc_bl_otf;
+		this.num_nop	=	rhs_.num_nop;
+	endfunction
+
+
 endclass

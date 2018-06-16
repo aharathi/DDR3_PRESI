@@ -1,6 +1,7 @@
 
 
-TEST?=ddr3_reset_test
+#TEST?=ddr3_reset_test
+TEST?=ddr3_single_write_test
 #EXTRA?=+UVM_VERBOSITY=UVM_DEBUG +UVM_CONFIG_DB_TRACE +UVM_PHASE_TRACE 
 EXTRA?=+UVM_VERBOSITY=UVM_HIGH 
 

@@ -47,6 +47,13 @@ logic [DQ_BITS-1:0] dq_out;
 bit [DM_BITS-1:0] dm_out;
 
 
+ddr3_input_monitor m_ip_mon_h;
+ddr3_seq_item ip_mon_trans;
+bit reset_asserted = 1'b0;
+bit write_pkt = 1'b0;
+
+
+
 assign dqs = dqs_en ? dqs_out : 'bz;
 assign dqs_n = dqs_en ? ~dqs_out : 'bz;
 assign dq = dq_en ? dq_out : 'bz;
@@ -57,6 +64,7 @@ begin
 	$timeformat (-12,3," ps",10);
     tck = TCK_MIN;
     ck  = 1'b1;
+    ip_mon_trans = new("ip_mon_trans");
 end
 
 // clock generator
@@ -367,5 +375,38 @@ endtask
 //         cont_if_mem.addr  = {s_addr[9:3],3'b0};
 //         cont_if_mem.cas_n = 1'b0;
     
+
+	task sample_ip();
+
+	forever begin //{
+	@(posedge ck)
+
+	casex ({rst_n,cke,cs_n,ras_n,cas_n,we_n})
+		6'b00???? : begin
+			if (reset_asserted == 'b0) begin 	
+				ip_mon_trans.CMD = RESET;
+				reset_asserted = 1'b1;
+				write_pkt = 1'b1;
+			end 
+				end
+		6'b11?111 : begin
+				ip_mon_trans.CMD = NOP;
+				write_pkt = 1'b1;
+		       		end 	
+
+		//default : `uvm_info(m_name,"unknown signals sampled in monitor",UVM_HIGH)
+	endcase 
+	
+	if (write_pkt) begin //{
+
+	`uvm_info(m_name,"Writing the packet to the monitor",UVM_DEBUG)
+	`uvm_info(m_name,ip_mon_trans.conv_to_str(),UVM_DEBUG)
+
+	m_ip_mon_h.write_ap(ip_mon_trans);
+	write_pkt = 1'b0;
+	end //}
+	end 	//}
+	endtask
+
 
 endinterface

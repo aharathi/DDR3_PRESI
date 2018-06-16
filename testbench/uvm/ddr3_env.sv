@@ -15,6 +15,7 @@ class ddr3_env extends uvm_env;
 
 	ddr3_tb_driver m_driver;		//driver
 	ddr3_sequencer m_sequencer;		// sequencer
+	ddr3_input_monitor m_ip_mon;
 
 
 	function new(string name = m_name,uvm_component parent = null);
@@ -28,6 +29,7 @@ class ddr3_env extends uvm_env;
 
 		m_driver = ddr3_tb_driver::type_id::create("m_driver",this);
 		m_sequencer = ddr3_sequencer::type_id::create("m_sequencer",this);
+		m_ip_mon = ddr3_input_monitor::type_id::create("m_ip_mon",this);
 
 	endfunction 					// build phase
 
